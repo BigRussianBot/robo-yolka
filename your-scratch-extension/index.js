@@ -215,6 +215,7 @@ class Scratch3YourExtension {
         };
     }
 
+    
 
     myFirstBlock ({ FILL_COLOR }) {
         // example implementation to return a string
