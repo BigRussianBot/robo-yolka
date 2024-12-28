@@ -216,10 +216,6 @@ class Scratch3YourExtension {
     }
 
 
-    /**
-     * implementation of the block with the opcode that matches this name
-     *  this will be called when the block is used
-     */
     myFirstBlock ({ FILL_COLOR }) {
         // example implementation to return a string
         cur_n = this.command_counter
