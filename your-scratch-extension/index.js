@@ -5,7 +5,7 @@ const TargetType = require('../../extension-support/target-type');
 class Scratch3YourExtension {
 
     constructor (runtime) {
-        // put any setup for your extension here
+        this.ws = new WebSocket("ws://127.0.0.1:10000/ws");
     }
 
     /**
@@ -17,14 +17,13 @@ class Scratch3YourExtension {
             id: 'yourScratchExtension',
 
             // name that will be displayed in the Scratch UI
-            name: 'Demo',
+            name: 'Robo-Yolka',
 
             // colours to use for your extension blocks
             color1: '#000099',
             color2: '#660066',
 
             // icons to display
-            blockIconURI: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAFCAAAAACyOJm3AAAAFklEQVQYV2P4DwMMEMgAI/+DEUIMBgAEWB7i7uidhAAAAABJRU5ErkJggg==',
             menuIconURI: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAFCAAAAACyOJm3AAAAFklEQVQYV2P4DwMMEMgAI/+DEUIMBgAEWB7i7uidhAAAAABJRU5ErkJggg==',
 
             // your Scratch blocks
@@ -38,10 +37,10 @@ class Scratch3YourExtension {
                     //   BlockType.BOOLEAN - same as REPORTER but returns a true/false value
                     //   BlockType.COMMAND - a normal command block, like "move {} steps"
                     //   BlockType.HAT - starts a stack if its value changes from false to true ("edge triggered")
-                    blockType: BlockType.REPORTER,
+                    blockType: BlockType.COMMAND,
 
                     // label to display on the block
-                    text: 'My first block [MY_NUMBER] and [MY_STRING]',
+                    text: 'Залить всю ёлку [FILL_COLOR]',
 
                     // true if this block should end a stack
                     terminal: false,
@@ -54,9 +53,9 @@ class Scratch3YourExtension {
 
                     // arguments used in the block
                     arguments: {
-                        MY_NUMBER: {
+                        FILL_COLOR: {
                             // default value before the user sets something
-                            defaultValue: 123,
+                            defaultValue: '#ff0000',
 
                             // type/shape of the parameter - choose from:
                             //     ArgumentType.ANGLE - numeric value with an angle picker
@@ -65,20 +64,7 @@ class Scratch3YourExtension {
                             //     ArgumentType.NUMBER - numeric value
                             //     ArgumentType.STRING - text value
                             //     ArgumentType.NOTE - midi music value with a piano picker
-                            type: ArgumentType.NUMBER
-                        },
-                        MY_STRING: {
-                            // default value before the user sets something
-                            defaultValue: 'hello',
-
-                            // type/shape of the parameter - choose from:
-                            //     ArgumentType.ANGLE - numeric value with an angle picker
-                            //     ArgumentType.BOOLEAN - true/false value
-                            //     ArgumentType.COLOR - numeric value with a colour picker
-                            //     ArgumentType.NUMBER - numeric value
-                            //     ArgumentType.STRING - text value
-                            //     ArgumentType.NOTE - midi music value with a piano picker
-                            type: ArgumentType.STRING
+                            type: ArgumentType.COLOR
                         }
                     }
                 }
@@ -91,9 +77,10 @@ class Scratch3YourExtension {
      * implementation of the block with the opcode that matches this name
      *  this will be called when the block is used
      */
-    myFirstBlock ({ MY_NUMBER, MY_STRING }) {
+    myFirstBlock ({ FILL_COLOR }) {
         // example implementation to return a string
-        return MY_STRING + ' : doubled would be ' + (MY_NUMBER * 2);
+        this.ws.send(FILL_COLOR)
+        return;
     }
 }
 
